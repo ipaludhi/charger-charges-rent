@@ -26,6 +26,11 @@ TEXT = (
 
 
 def main() -> None:
+    # Self-check against the competition gate before writing: the server
+    # refuses any entry.txt outside 1-200 characters or blank, so fail
+    # loudly here instead of silently shipping an invalid entry.
+    if not 1 <= len(TEXT) <= 200 or not TEXT.strip():
+        raise SystemExit("entry.txt must be 1-200 non-blank characters")
     out_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "entry.txt").write_text(TEXT, encoding="utf-8")
